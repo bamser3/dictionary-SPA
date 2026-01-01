@@ -7,6 +7,12 @@ A simple web based dictionary app that allows you to search for English words, v
 I used the [Free Dictionary API](https://dictionaryapi.dev/) for the words.
 
 ---
+What it looks like
+
+<img width="2275" height="1504" alt="image" src="https://github.com/user-attachments/assets/d47fbb8a-8657-4456-ab10-357e1eac2edc" />
+
+
+---
 
 ## Features
 
@@ -42,3 +48,4 @@ cd dictionary-app
 4. If the word is not found, a "Not found" message is displayed.
 
 ---
+
