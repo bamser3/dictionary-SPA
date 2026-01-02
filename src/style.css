@@ -131,3 +131,17 @@ html {
   font-size: 24px;
   margin-bottom: 20px;
 }
+
+.hidden {
+  visibility: hidden;
+}
+
+.message {
+  margin-top: 10px;
+  font-size: 16px;
+  color: bisque;
+}
+
+.hidden {
+  display: none;
+}

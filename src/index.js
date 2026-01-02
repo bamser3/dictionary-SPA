@@ -12,6 +12,13 @@ const definitionElement = document.getElementById("definitionText");
 const example = document.getElementById("exampleText");
 const additional = document.getElementById("additionalText");
 
+const messageEl = document.getElementById("message");
+
+function showMessage(text) {
+  messageEl.textContent = text;
+  messageEl.classList.remove("hidden");
+}
+
 async function fetchWord(searchTerm) {
   try {
     const resolution = await fetch(
@@ -28,14 +35,14 @@ async function fetchWord(searchTerm) {
   }
 }
 
-function populatePage(entry) {
+function fillPage(entry) {
   if (!entry) {
     wordElement.textContent = "Not found";
     typeOfWord.textContent = "";
     definitionElement.textContent = "";
     example.textContent = "";
     additional.textContent = "";
-    pronunciationBtn.disabled = true;
+    pronunciationBtn.classList.add("hidden");
     return;
   }
 
@@ -55,13 +62,14 @@ function populatePage(entry) {
   );
 
   if (phoneticWithAudio) {
-    pronunciationText.textContent = phoneticWithAudio.text || "";
+    pronunciationText.textContent = phoneticWithAudio.text || "Audio";
     pronunciationAudio = new Audio(phoneticWithAudio.audio);
-    pronunciationBtn.disabled = false;
+    pronunciationBtn.classList.remove("hidden");
+    messageEl.classList.add("hidden");
   } else {
-    pronunciationText.textContent = "No audio";
     pronunciationAudio = null;
-    pronunciationBtn.disabled = true;
+    pronunciationBtn.classList.add("hidden");
+    messageEl.classList.remove("hidden");
   }
 
   const synonyms = definitionData.synonyms?.length
@@ -86,11 +94,26 @@ function populatePage(entry) {
 }
 
 searchButton.addEventListener("click", async () => {
-  const searchTerm = input.value.trim();
-  if (!searchTerm) return;
+  const searchTerm = input.value.trim().toLowerCase();
+
+  if (!searchTerm) {
+    showMessage("Please enter a word");
+    return;
+  }
+
+  if (searchTerm.includes(" ")) {
+    showMessage("Please enter a single word");
+    return;
+  }
 
   const entry = await fetchWord(searchTerm);
-  populatePage(entry);
+
+  if (!entry) {
+    showMessage("Word not found");
+    return;
+  }
+
+  fillPage(entry);
 });
 
 input.addEventListener("keydown", (e) => {
